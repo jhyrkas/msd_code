@@ -1,0 +1,38 @@
+-- program 1
+pitch = scan(Jeremy:MSD:PitchTransposed);
+songs = scan(Jeremy:MSD:SongsTable);
+
+keywords = select p.song_id as song_id, p.beat_number as beat_number,
+            case when p.basis0 >= 0.5 then int(pow(2, 11)) else 0 end
+            +
+            case when p.basis1 >= 0.5 then int(pow(2, 10)) else 0 end
+            +
+            case when p.basis2 >= 0.5 then int(pow(2, 9)) else 0 end
+            +
+            case when p.basis3 >= 0.5 then int(pow(2, 8)) else 0 end
+            +
+            case when p.basis4 >= 0.5 then int(pow(2, 7)) else 0 end
+            +
+            case when p.basis5 >= 0.5 then int(pow(2, 6)) else 0 end
+            +
+            case when p.basis6 >= 0.5 then int(pow(2, 5)) else 0 end
+            +
+            case when p.basis7 >= 0.5 then int(pow(2, 4)) else 0 end
+            +
+            case when p.basis8 >= 0.5 then int(pow(2, 3)) else 0 end
+            +
+            case when p.basis9 >= 0.5 then int(pow(2, 2)) else 0 end
+            +
+            case when p.basis10 >= 0.5 then int(pow(2, 1)) else 0 end
+            +
+            case when p.basis11 >= 0.5 then int(pow(2, 0)) else 0 end
+            as keyword
+            from pitch p;
+
+yearKeywords = select s.year, k.keyword, count(k.keyword)
+               from songs s, keywords k
+               where s.song_id = k.song_id;
+
+store(yearKeywords, Jeremy:MSD:PitchKeywordsByYear);
+
+-- program 2
